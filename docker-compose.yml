@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:14-alpine
+    container_name: noty-db
+    ports:
+      - '5433:5432'
+    environment:
+      POSTGRES_PASSWORD: noty-password
+      POSTGRES_USER: noty-user
+      POSTGRES_DB: noty-db
