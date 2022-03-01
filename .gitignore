@@ -39,3 +39,4 @@ lerna-debug.log*
 
 # Build files
 /tsconfig.build.tsbuildinfo
+schema.gql
