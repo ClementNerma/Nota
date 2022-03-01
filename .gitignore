@@ -36,3 +36,6 @@ lerna-debug.log*
 
 # Local settings
 .env
+
+# Build files
+/tsconfig.build.tsbuildinfo
