@@ -8,7 +8,7 @@
     "noFallthroughCasesInSwitch": true,
     "noPropertyAccessFromIndexSignature": true,
     "useUnknownInCatchVariables": true,
-    "strictPropertyInitialization": false,
+    "strictPropertyInitialization": true,
 
     "downlevelIteration": true,
     "experimentalDecorators": true,
