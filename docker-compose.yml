@@ -3,15 +3,15 @@ version: '3'
 services:
   postgres:
     image: postgres:14-alpine
-    container_name: noty-db
+    container_name: nota-db
     ports:
       - '5433:5432'
     environment:
-      POSTGRES_PASSWORD: noty-password
-      POSTGRES_USER: noty-user
-      POSTGRES_DB: noty-db
+      POSTGRES_PASSWORD: superweakpassword
+      POSTGRES_USER: nota
+      POSTGRES_DB: nota
     volumes:
-      - noty_db:/var/lib/postgresql/data
+      - db:/var/lib/postgresql/data
 
 volumes:
-  noty_db:
+  db:
