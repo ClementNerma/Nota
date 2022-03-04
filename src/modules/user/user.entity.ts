@@ -9,6 +9,7 @@ export class EncryptedUser {
   privateKey!: string
 
   @Property()
+  @Field()
   publicName!: string
 }
 
@@ -28,5 +29,8 @@ export class User {
   enc!: EncryptedUser
 
   @Property()
-  passwordHash!: string
+  passwordDoubleSalt!: string
+
+  @Property()
+  passwordDoubleHash!: string
 }
