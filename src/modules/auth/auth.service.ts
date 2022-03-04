@@ -11,8 +11,8 @@ export type AuthPayload = JwtPayload
 export class AuthService {
   constructor(private readonly jwtService: JwtService, private readonly usersService: UserService) {}
 
-  async validateUser(uuid: string, passwordHash: string): Promise<JwtPayload | null> {
-    const user = await this.usersService.findByUuid(uuid)
+  async validateUser(encryptedUsername: string, passwordHash: string): Promise<JwtPayload | null> {
+    const user = await this.usersService.findByEncryptedUsername(encryptedUsername)
 
     if (!user || !(await compare(passwordHash, user.passwordDoubleHash))) {
       return null
@@ -21,8 +21,8 @@ export class AuthService {
     return { uuid: user.uuid }
   }
 
-  async login(uuid: string, passwordHash: string): Promise<string | null> {
-    const maybeUser = await this.validateUser(uuid, passwordHash)
+  async login(encryptedUsername: string, passwordHash: string): Promise<string | null> {
+    const maybeUser = await this.validateUser(encryptedUsername, passwordHash)
 
     return maybeUser ? this.jwtService.sign(maybeUser, { expiresIn: '1h' }) : null
   }

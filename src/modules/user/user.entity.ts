@@ -1,4 +1,4 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core'
+import { Entity, PrimaryKey, Property, Unique } from '@mikro-orm/core'
 import { v4 } from 'uuid'
 import { Field, ObjectType } from '@nestjs/graphql'
 
@@ -18,6 +18,11 @@ export class User {
 
   @Property()
   passwordDoubleHash!: string
+
+  @Property()
+  @Unique()
+  @Field()
+  encUsername!: string
 
   @Property()
   @Field()

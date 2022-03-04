@@ -9,6 +9,9 @@ export class UserCreateDTO {
   publicKey!: string
 
   @Field()
+  encUsername!: string
+
+  @Field()
   encPublicName!: string
 
   @Field()
