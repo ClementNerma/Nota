@@ -25,4 +25,4 @@ export const GqlAuth = (allowUnauth?: boolean) =>
 export const GqlPayload = createParamDecorator((data, { args: [, , ctx] }) => ctx.req?.user ?? null)
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return
-export const ViewerUuid = createParamDecorator((data, { args: [, ctx] }) => (ctx.req?.user ?? null)?.uuid)
+export const ViewerUuid = createParamDecorator((data, { args: [, , ctx] }) => (ctx.req?.user ?? null)?.uuid)
