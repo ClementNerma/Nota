@@ -23,10 +23,8 @@ export class UserService {
       passwordDoubleSalt,
       passwordDoubleHash: await hash(dto.passwordHash, passwordDoubleSalt),
       publicKey: dto.publicKey,
-      enc: {
-        publicName: dto.encPublicName,
-        privateKey: dto.encPrivateKey,
-      },
+      encPublicName: dto.encPublicName,
+      encPrivateKey: dto.encPrivateKey,
     })
 
     await this.usersRepo.persistAndFlush(user)

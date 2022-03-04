@@ -1,17 +1,6 @@
-import { Embeddable, Embedded, Entity, PrimaryKey, Property } from '@mikro-orm/core'
+import { Entity, PrimaryKey, Property } from '@mikro-orm/core'
 import { v4 } from 'uuid'
 import { Field, ObjectType } from '@nestjs/graphql'
-
-@Embeddable()
-@ObjectType()
-export class EncryptedUser {
-  @Property()
-  privateKey!: string
-
-  @Property()
-  @Field()
-  publicName!: string
-}
 
 @Entity()
 @ObjectType()
@@ -24,13 +13,17 @@ export class User {
   @Field()
   publicKey!: string
 
-  @Embedded()
-  @Field()
-  enc!: EncryptedUser
-
   @Property()
   passwordDoubleSalt!: string
 
   @Property()
   passwordDoubleHash!: string
+
+  @Property()
+  @Field()
+  encPrivateKey!: string
+
+  @Property()
+  @Field()
+  encPublicName!: string
 }
