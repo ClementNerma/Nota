@@ -8,7 +8,7 @@ export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
   @Mutation(() => User)
-  async create(@Args('input') dto: UserCreateDTO): Promise<User> {
+  async register(@Args('input') dto: UserCreateDTO): Promise<User> {
     return this.userService.create(dto)
   }
 }
