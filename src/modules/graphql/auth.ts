@@ -1,6 +1,7 @@
 import { applyDecorators, createParamDecorator, ExecutionContext, Injectable, UseGuards } from '@nestjs/common'
 import { GqlExecutionContext } from '@nestjs/graphql'
 import { AuthGuard } from '@nestjs/passport'
+import { JwtPayload } from '../auth/auth.service'
 
 @Injectable()
 export class GqlAuthGuard extends AuthGuard('jwt') {
@@ -22,7 +23,7 @@ export const GqlAuth = (allowUnauth?: boolean) =>
   applyDecorators(UseGuards(allowUnauth !== true ? GqlAuthGuard : GqlOptionalAuthGuard))
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return
-export const GqlPayload = createParamDecorator((data, { args: [, , ctx] }) => ctx.req?.user)
+export const GqlPayload = createParamDecorator((data, { args: [, , ctx] }): JwtPayload | undefined => ctx.req?.user)
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return
-export const ViewerUuid = createParamDecorator((data, { args: [, , ctx] }) => ctx.req?.user?.uuid)
+export type Viewer = JwtPayload
+export type ViewerMaybe = JwtPayload | undefined

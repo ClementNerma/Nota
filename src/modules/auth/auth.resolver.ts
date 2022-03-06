@@ -1,7 +1,7 @@
 import { Inject } from '@nestjs/common'
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { AuthenticationError } from 'apollo-server-express'
-import { GqlAuth, ViewerUuid } from '../graphql/auth'
+import { GqlAuth, GqlPayload, Viewer } from '../graphql/auth'
 import { UserLoginDTO } from '../user/dtos/user-login.dto'
 import { User } from '../user/user.entity'
 import { UserService } from '../user/user.service'
@@ -19,8 +19,8 @@ export class AuthResolver {
 
   @Query(() => User, { nullable: true })
   @GqlAuth(true)
-  async viewer(@ViewerUuid() viewerUuid?: string): Promise<User | null> {
-    return viewerUuid !== undefined ? this.userService.findByUuid(viewerUuid) : null
+  async viewer(@GqlPayload() viewer: Viewer): Promise<User | null> {
+    return viewer !== undefined ? this.userService.findByUuid(viewer.uuid) : null
   }
 
   @Mutation(() => String)
