@@ -39,6 +39,8 @@ const float: Parser<number> = (value) => {
  * The application's global configuration object
  */
 export const CONFIG = expect({
+  PORT: int,
+
   DB_HOST: string,
   DB_PORT: int,
   DB_USERNAME: string,
