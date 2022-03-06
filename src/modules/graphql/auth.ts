@@ -22,7 +22,7 @@ export const GqlAuth = (allowUnauth?: boolean) =>
   applyDecorators(UseGuards(allowUnauth !== true ? GqlAuthGuard : GqlOptionalAuthGuard))
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return
-export const GqlPayload = createParamDecorator((data, { args: [, , ctx] }) => ctx.req?.user ?? null)
+export const GqlPayload = createParamDecorator((data, { args: [, , ctx] }) => ctx.req?.user)
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return
-export const ViewerUuid = createParamDecorator((data, { args: [, , ctx] }) => (ctx.req?.user ?? null)?.uuid)
+export const ViewerUuid = createParamDecorator((data, { args: [, , ctx] }) => ctx.req?.user?.uuid)
