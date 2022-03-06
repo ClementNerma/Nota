@@ -38,5 +38,6 @@ lerna-debug.log*
 .env
 
 # Build files
+/temp
 /tsconfig.build.tsbuildinfo
 schema.gql
