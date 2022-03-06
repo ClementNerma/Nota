@@ -1,21 +1,14 @@
-import { Inject } from '@nestjs/common'
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { AuthenticationError } from 'apollo-server-express'
 import { GqlAuth, GqlPayload, ViewerMaybe } from '../graphql/auth'
-import { UserLoginDTO } from '../user/dtos/user-login.dto'
+import { UserLoginDTO } from '../user/dtos/user-login.input'
 import { User } from '../user/user.entity'
 import { UserService } from '../user/user.service'
 import { AuthService } from './auth.service'
 
 @Resolver()
 export class AuthResolver {
-  constructor(
-    @Inject(UserService)
-    private readonly userService: UserService,
-
-    @Inject(AuthService)
-    private readonly authService: AuthService,
-  ) {}
+  constructor(private readonly userService: UserService, private readonly authService: AuthService) {}
 
   @Query(() => User, { nullable: true })
   @GqlAuth(true)
