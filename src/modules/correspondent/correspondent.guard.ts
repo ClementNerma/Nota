@@ -28,7 +28,7 @@ export class CorrespondentGuard {
   async getViewerCorrespondent(viewer: ViewerMaybe, correspondentUuid: string): Promise<Correspondent> {
     const user = await this.userGuard.validateViewer(viewer)
 
-    const correspondent = await this.correspondentRepo.findOne({ uuid: correspondentUuid })
+    const correspondent = await this.correspondentRepo.findOne(correspondentUuid)
 
     if (!correspondent || correspondent.associatedTo.uuid !== user.uuid) {
       throw new UserInputError('Provided correspondent was not found')

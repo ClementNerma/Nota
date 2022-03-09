@@ -21,7 +21,7 @@ export class UserService {
   ) {}
 
   async findByUuid(uuid: string): Promise<User | null> {
-    return this.usersRepo.findOne({ uuid })
+    return this.usersRepo.findOne(uuid)
   }
 
   async findByEncryptedUsername(encUsername: string): Promise<User | null> {
