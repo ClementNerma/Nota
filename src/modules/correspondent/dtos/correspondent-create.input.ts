@@ -4,6 +4,9 @@ import { ExchangePermissions } from '../correspondent.entity'
 @InputType()
 export class CorrespondentCreateInputDTO {
   @Field()
+  serverUrl!: string
+
+  @Field()
   encDisplayName!: string
 
   @Field()

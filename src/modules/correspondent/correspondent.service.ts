@@ -18,6 +18,7 @@ export class CorrespondentService {
       userPermissions: input.userPermissions,
       encDisplayName: input.encDisplayName,
       encPublicKey: input.encPublicKey,
+      serverUrl: input.serverUrl,
       associatedTo: viewer.uuid,
     })
 

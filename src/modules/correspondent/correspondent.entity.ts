@@ -46,6 +46,10 @@ export class Correspondent {
 
   @Property()
   @Field()
+  serverUrl!: string
+
+  @Property()
+  @Field()
   encDisplayName!: string
 
   @Property()
