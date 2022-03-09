@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql'
-import { CorrespondentPermissions } from '../correspondent.entity'
+import { ExchangePermissions } from '../correspondent.entity'
 
 @InputType()
 export class CorrespondentCreateInputDTO {
@@ -10,5 +10,8 @@ export class CorrespondentCreateInputDTO {
   encPublicKey!: string
 
   @Field()
-  permissions!: CorrespondentPermissions
+  selfPermissions!: ExchangePermissions
+
+  @Field()
+  userPermissions!: ExchangePermissions
 }

@@ -14,15 +14,11 @@ import { User } from '../user/user.entity'
 
 @Embeddable()
 @ObjectType()
-@InputType('CorrespondentPermissionsInput')
-export class CorrespondentPermissions {
+@InputType('ExchangePermissionsInput')
+export class ExchangePermissions {
   @Property()
   @Field()
   canSendMessages!: boolean
-
-  @Property()
-  @Field()
-  canSendNotifications!: boolean
 }
 
 @Entity()
@@ -42,7 +38,11 @@ export class Correspondent {
 
   @Embedded()
   @Field()
-  permissions!: CorrespondentPermissions
+  selfPermissions!: ExchangePermissions
+
+  @Embedded()
+  @Field()
+  userPermissions!: ExchangePermissions
 
   @Property()
   @Field()

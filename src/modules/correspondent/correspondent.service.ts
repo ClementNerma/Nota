@@ -14,7 +14,8 @@ export class CorrespondentService {
   async create(viewer: Viewer, input: CorrespondentCreateInputDTO): Promise<CorrespondentCreatedDTO> {
     const correspondent = this.correspondentRepo.create({
       apiKey: v4(),
-      permissions: input.permissions,
+      selfPermissions: input.selfPermissions,
+      userPermissions: input.userPermissions,
       encDisplayName: input.encDisplayName,
       encPublicKey: input.encPublicKey,
       associatedTo: viewer.uuid,
