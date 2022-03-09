@@ -18,10 +18,10 @@ export function PaginatedResponse<TItem>(TItemClass: new () => TItem): abstract 
     @Field()
     hasMore!: boolean
 
-    @Field()
+    @Field({ nullable: true })
     prevCursor?: Date
 
-    @Field()
+    @Field({ nullable: true })
     nextCursor?: Date
   }
 
