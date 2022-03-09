@@ -39,6 +39,7 @@ export class MessageService {
       attributes: {
         read: false,
         archived: false,
+        encCategory: input.encryptedData.encCategory,
       },
       createdAt: new Date(),
     })

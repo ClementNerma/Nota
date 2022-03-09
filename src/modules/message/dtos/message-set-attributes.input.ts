@@ -6,4 +6,5 @@ export class SetMessageAttributesInput {
 
   read?: boolean
   archived?: boolean
+  encCategory?: string
 }

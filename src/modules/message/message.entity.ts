@@ -31,6 +31,9 @@ export class MessageAttributes {
 
   @Property()
   archived!: boolean
+
+  @Property({ nullable: true })
+  encCategory?: string
 }
 
 @Entity()
