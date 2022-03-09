@@ -7,7 +7,8 @@ import { ApiKey, GqlApiKey } from '../graphql/external'
 import { MessageSendToExternalInputDTO } from './dtos/message-send-to-external.input'
 import { MessageSendInputDTO } from './dtos/message-send.input'
 import { MessageSentDTO } from './dtos/message-sent.dto'
-import { Message } from './message.entity'
+import { SetMessageAttributesInput } from './dtos/message-set-attributes.input'
+import { Message, MessageAttributes } from './message.entity'
 import { MessageService } from './message.service'
 
 @ObjectType()
@@ -38,5 +39,14 @@ export class MessageResolver {
     @Args('input') input: MessageSendToExternalInputDTO,
   ): Promise<MessageSentDTO> {
     return this.messageService.sendMessageToExternal(viewer, input)
+  }
+
+  @Mutation(() => MessageAttributes)
+  @GqlAuth()
+  async setMessageAttributes(
+    @GqlPayload() viewer: Viewer,
+    @Args('input') input: SetMessageAttributesInput,
+  ): Promise<MessageAttributes> {
+    return this.messageService.setMessageAttributes(viewer, input)
   }
 }

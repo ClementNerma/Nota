@@ -9,18 +9,22 @@ import { User } from '../user/user.entity'
 import { MessageSendToExternalInputDTO } from './dtos/message-send-to-external.input'
 import { MessageSendInputDTO } from './dtos/message-send.input'
 import { MessageSentDTO } from './dtos/message-sent.dto'
-import { Message, MessageDirection } from './message.entity'
+import { Message, MessageAttributes, MessageDirection } from './message.entity'
 import { ApolloClient, InMemoryCache, HttpLink, gql } from '@apollo/client/core'
 import { fetch } from 'cross-fetch'
 import { API_KEY_HEADER } from '../graphql/external'
 import { paginatedQuery, PaginationInput } from '../../utils/pagination'
 import { PaginatedMessages } from './message.resolver'
+import { SetMessageAttributesInput } from './dtos/message-set-attributes.input'
+import { UserGuard } from '../user/user.guard'
+import { mergeObjects } from '../../utils/merge-objects'
 
 @Injectable()
 export class MessageService {
   constructor(
     @InjectRepository(Message) private readonly messageRepo: EntityRepository<Message>,
     private readonly correspondentGuard: CorrespondentGuard,
+    private readonly userGuard: UserGuard,
   ) {}
 
   async sendMessage(from: Correspondent, input: MessageSendInputDTO): Promise<MessageSentDTO> {
@@ -32,6 +36,10 @@ export class MessageService {
       correspondent: from.uuid,
       direction: MessageDirection.CORRESPONDENT_TO_USER,
       encryptedData: input.encryptedData,
+      attributes: {
+        read: false,
+        archived: false,
+      },
       createdAt: new Date(),
     })
 
@@ -90,5 +98,21 @@ export class MessageService {
       },
       pagination,
     )
+  }
+
+  async setMessageAttributes(viewer: Viewer, input: SetMessageAttributesInput): Promise<MessageAttributes> {
+    const user = await this.userGuard.validateViewer(viewer)
+
+    const message = await this.messageRepo.findOne(input.messageId, { populate: ['correspondent'] })
+
+    if (!message || message.correspondent.unwrap().associatedTo.unwrap().uuid !== user.uuid) {
+      throw new ForbiddenError('Provided message ID was not found')
+    }
+
+    mergeObjects(message.attributes, input)
+
+    await this.messageRepo.persistAndFlush(message)
+
+    return message.attributes
   }
 }

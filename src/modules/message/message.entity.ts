@@ -23,6 +23,16 @@ export class EncryptedMessageData {
   encContent!: string
 }
 
+@Embeddable()
+@ObjectType()
+export class MessageAttributes {
+  @Property()
+  read!: boolean
+
+  @Property()
+  archived!: boolean
+}
+
 @Entity()
 @ObjectType()
 export class Message {
@@ -38,6 +48,9 @@ export class Message {
 
   @Embedded()
   encryptedData!: EncryptedMessageData
+
+  @Embedded()
+  attributes!: MessageAttributes
 
   @Property()
   createdAt!: Date
