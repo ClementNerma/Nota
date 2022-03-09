@@ -14,10 +14,10 @@ export class EncryptedMessageData {
   encSubject!: string
 
   @Property({ nullable: true })
-  encReplyingToMessageId!: string
+  encReplyingToMessageId?: string
 
   @Property({ nullable: true })
-  encCategory!: string
+  encCategory?: string
 
   @Property()
   encContent!: string
