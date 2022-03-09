@@ -61,6 +61,9 @@ export class Message {
   attributes!: MessageAttributes
 
   @Property()
+  receivedAt!: Date
+
+  @Property()
   createdAt!: Date
 }
 

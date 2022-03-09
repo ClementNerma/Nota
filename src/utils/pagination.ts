@@ -1,5 +1,4 @@
-import { EntityRepository, FilterQuery, FindOptions } from '@mikro-orm/core'
-import { OperatorMap } from '@mikro-orm/core/typings'
+import { EntityRepository, ObjectQuery, FindOptions } from '@mikro-orm/core'
 import { Field, InputType, ObjectType } from '@nestjs/graphql'
 
 export interface PaginatedType<TItem> {
@@ -40,12 +39,9 @@ export class PaginationInput {
   asc!: boolean
 }
 
-export async function paginatedQuery<
-  T extends { createdAt: Date },
-  F extends FilterQuery<T> & { createdAt?: OperatorMap<Date> },
->(
+export async function paginatedQuery<T extends { createdAt: Date }>(
   repo: EntityRepository<T>,
-  filters: F,
+  filters: ObjectQuery<T>,
   pagination: PaginationInput,
   options?: FindOptions<T>,
 ): Promise<PaginatedType<T>> {

@@ -1,4 +1,4 @@
-import { EntityRepository, NotFoundError } from '@mikro-orm/core'
+import { EntityRepository, NotFoundError, ObjectQuery } from '@mikro-orm/core'
 import { InjectRepository } from '@mikro-orm/nestjs'
 import { Injectable } from '@nestjs/common'
 import { ApolloError, ForbiddenError } from 'apollo-server-express'
@@ -9,7 +9,7 @@ import { User } from '../user/user.entity'
 import { MessageSendToExternalInputDTO } from './dtos/message-send-to-external.input'
 import { MessageSendInputDTO } from './dtos/message-send.input'
 import { MessageSentDTO } from './dtos/message-sent.dto'
-import { Message, MessageAttributes, MessageDirection } from './message.entity'
+import { EncryptedMessageData, Message, MessageAttributes, MessageDirection } from './message.entity'
 import { ApolloClient, InMemoryCache, HttpLink, gql } from '@apollo/client/core'
 import { fetch } from 'cross-fetch'
 import { API_KEY_HEADER } from '../graphql/external'
@@ -19,6 +19,7 @@ import { SetMessageAttributesInput } from './dtos/message-set-attributes.input'
 import { UserGuard } from '../user/user.guard'
 import { mergeObjects } from '../../utils/merge-objects'
 import { GetMessageInput } from './dtos/message-get.input'
+import { MessageSearchInput } from './dtos/message-search.input'
 
 @Injectable()
 export class MessageService {
@@ -43,6 +44,7 @@ export class MessageService {
         archived: false,
         encCategory: input.encryptedData.encCategory,
       },
+      receivedAt: new Date(),
       createdAt: new Date(),
     })
 
@@ -118,6 +120,52 @@ export class MessageService {
     }
 
     return message
+  }
+
+  async searchMessages(
+    viewer: Viewer,
+    input: MessageSearchInput,
+    pagination: PaginationInput,
+  ): Promise<PaginatedMessages> {
+    const user = await this.userGuard.validateViewer(viewer)
+
+    const filters: ObjectQuery<Message> = {
+      user,
+    }
+
+    const encryptedDataFilters: ObjectQuery<EncryptedMessageData> = {}
+
+    if (input.encCorrespondentId != null) {
+      filters.correspondent = input.encCorrespondentId
+    }
+
+    if (input.encSenderName != null) {
+      encryptedDataFilters.encSenderName = input.encSenderName
+    }
+
+    if (input.encCategory != null) {
+      encryptedDataFilters.encCategory = input.encCategory
+    }
+
+    if (input.direction != null) {
+      filters.direction = input.direction
+    }
+
+    if (input.fromDate || input.toDate) {
+      filters.receivedAt =
+        input.fromDate && input.toDate
+          ? {
+              $gte: input.fromDate,
+              $lte: input.toDate,
+            }
+          : input.fromDate
+          ? { $gte: input.fromDate }
+          : { $lte: input.toDate }
+    }
+
+    filters.encryptedData = encryptedDataFilters
+
+    return paginatedQuery(this.messageRepo, filters, pagination)
   }
 
   async setMessageAttributes(viewer: Viewer, input: SetMessageAttributesInput): Promise<MessageAttributes> {

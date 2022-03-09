@@ -1,10 +1,11 @@
 import { Args, Mutation, ObjectType, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
-import { PaginatedResponse } from '../../utils/pagination'
+import { PaginatedResponse, PaginationInput } from '../../utils/pagination'
 import { Correspondent } from '../correspondent/correspondent.entity'
 import { CorrespondentGuard } from '../correspondent/correspondent.guard'
 import { GqlAuth, GqlPayload, Viewer } from '../graphql/auth'
 import { ApiKey, GqlApiKey } from '../graphql/external'
 import { GetMessageInput } from './dtos/message-get.input'
+import { MessageSearchInput } from './dtos/message-search.input'
 import { MessageSendToExternalInputDTO } from './dtos/message-send-to-external.input'
 import { MessageSendInputDTO } from './dtos/message-send.input'
 import { MessageSentDTO } from './dtos/message-sent.dto'
@@ -55,5 +56,15 @@ export class MessageResolver {
   @GqlAuth()
   async getMessage(@GqlPayload() viewer: Viewer, @Args('input') input: GetMessageInput): Promise<Message> {
     return this.messageService.getMessage(viewer, input)
+  }
+
+  @Query(() => PaginatedMessages)
+  @GqlAuth()
+  async searchMessages(
+    @GqlPayload() viewer: Viewer,
+    @Args('input') input: MessageSearchInput,
+    @Args('pagination') pagination: PaginationInput,
+  ): Promise<PaginatedMessages> {
+    return this.messageService.searchMessages(viewer, input, pagination)
   }
 }
