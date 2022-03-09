@@ -12,7 +12,7 @@ export class User {
 
   @Property()
   @Field()
-  publicKeyBase64!: string
+  publicKey!: string
 
   @Property()
   passwordDoubleSalt!: string

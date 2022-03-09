@@ -7,7 +7,7 @@ export class CorrespondentCreateInputDTO {
   encDisplayName!: string
 
   @Field()
-  encPublicKeyBase64!: string
+  encPublicKey!: string
 
   @Field()
   permissions!: CorrespondentPermissions

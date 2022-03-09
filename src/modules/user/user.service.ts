@@ -32,7 +32,7 @@ export class UserService {
     const user = this.usersRepo.create({
       passwordDoubleSalt,
       passwordDoubleHash: await hash(dto.passwordHash, passwordDoubleSalt),
-      publicKeyBase64: dto.publicKeyBase64,
+      publicKey: dto.publicKey,
       encUsername: dto.encUsername,
       encPublicName: dto.encPublicName,
       encPrivateKey: dto.encPrivateKey,

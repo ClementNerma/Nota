@@ -50,5 +50,5 @@ export class Correspondent {
 
   @Property()
   @Field()
-  encPublicKeyBase64!: string
+  encPublicKey!: string
 }

@@ -6,7 +6,7 @@ export class UserCreateDTO {
   passwordHash!: string
 
   @Field()
-  publicKeyBase64!: string
+  publicKey!: string
 
   @Field()
   encUsername!: string

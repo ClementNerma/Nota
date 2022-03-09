@@ -16,7 +16,7 @@ export class CorrespondentService {
       apiKey: v4(),
       permissions: input.permissions,
       encDisplayName: input.encDisplayName,
-      encPublicKeyBase64: input.encPublicKeyBase64,
+      encPublicKey: input.encPublicKey,
       associatedTo: viewer.uuid,
     })
 
