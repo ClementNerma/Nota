@@ -1,6 +1,7 @@
 import { EntityRepository } from '@mikro-orm/core'
 import { InjectRepository } from '@mikro-orm/nestjs'
 import { Injectable } from '@nestjs/common'
+import { ForbiddenError } from 'apollo-server-express'
 import { Correspondent } from '../correspondent/correspondent.entity'
 import { CorrespondentGuard } from '../correspondent/correspondent.guard'
 import { Viewer } from '../graphql/auth'
@@ -18,6 +19,10 @@ export class MessageService {
   ) {}
 
   async sendMessage(from: Correspondent, input: MessageSendInputDTO): Promise<MessageSentDTO> {
+    if (!from.selfPermissions.canSendMessages) {
+      throw new ForbiddenError("You don't have permission to send messages to this user")
+    }
+
     const message = this.messageRepo.create({
       correspondent: from.uuid,
       direction: MessageDirection.CORRESPONDENT_TO_USER,
