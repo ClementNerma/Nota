@@ -1,6 +1,6 @@
 import { Collection, Entity, OneToMany, PrimaryKey, Property, Unique } from '@mikro-orm/core'
 import { v4 } from 'uuid'
-import { Field, ObjectType } from '@nestjs/graphql'
+import { Field, HideField, ObjectType } from '@nestjs/graphql'
 import { Correspondent } from '../correspondent/correspondent.entity'
 
 @Entity()
@@ -15,9 +15,11 @@ export class User {
   publicKey!: string
 
   @Property()
+  @HideField()
   passwordDoubleSalt!: string
 
   @Property()
+  @HideField()
   passwordDoubleHash!: string
 
   @Property()

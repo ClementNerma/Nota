@@ -8,7 +8,7 @@ import {
   Property,
   Unique,
 } from '@mikro-orm/core'
-import { Field, InputType, ObjectType } from '@nestjs/graphql'
+import { Field, HideField, InputType, ObjectType } from '@nestjs/graphql'
 import { v4 } from 'uuid'
 import { User } from '../user/user.entity'
 
@@ -29,11 +29,12 @@ export class Correspondent {
   uuid: string = v4()
 
   @ManyToOne()
-  @Field(() => User)
+  @HideField()
   associatedTo!: IdentifiedReference<User>
 
   @Property()
   @Unique()
+  @HideField()
   apiKey!: string
 
   @Embedded()
