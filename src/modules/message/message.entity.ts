@@ -8,23 +8,18 @@ import { Correspondent } from '../correspondent/correspondent.entity'
 @InputType('EncryptedMessageDataInput')
 export class EncryptedMessageData {
   @Property()
-  @Field()
   encSenderName!: string
 
   @Property()
-  @Field()
   encSubject!: string
 
   @Property({ nullable: true })
-  @Field({ nullable: true })
   encReplyingToMessageId!: string
 
   @Property({ nullable: true })
-  @Field({ nullable: true })
   encCategory!: string
 
   @Property()
-  @Field()
   encContent!: string
 }
 
@@ -32,7 +27,6 @@ export class EncryptedMessageData {
 @ObjectType()
 export class Message {
   @PrimaryKey()
-  @Field()
   uuid: string = v4()
 
   @ManyToOne()
@@ -40,15 +34,12 @@ export class Message {
   correspondent!: IdentifiedReference<Correspondent>
 
   @Property()
-  @Field()
   direction!: MessageDirection
 
   @Embedded()
-  @Field()
   encryptedData!: EncryptedMessageData
 
   @Property()
-  @Field()
   createdAt!: Date
 }
 

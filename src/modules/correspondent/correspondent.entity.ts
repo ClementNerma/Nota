@@ -8,7 +8,7 @@ import {
   Property,
   Unique,
 } from '@mikro-orm/core'
-import { Field, HideField, InputType, ObjectType } from '@nestjs/graphql'
+import { HideField, InputType, ObjectType } from '@nestjs/graphql'
 import { v4 } from 'uuid'
 import { User } from '../user/user.entity'
 
@@ -17,7 +17,6 @@ import { User } from '../user/user.entity'
 @InputType('ExchangePermissionsInput')
 export class ExchangePermissions {
   @Property()
-  @Field()
   canSendMessages!: boolean
 }
 
@@ -25,7 +24,6 @@ export class ExchangePermissions {
 @ObjectType()
 export class Correspondent {
   @PrimaryKey()
-  @Field()
   uuid: string = v4()
 
   @ManyToOne()
@@ -38,26 +36,20 @@ export class Correspondent {
   apiKey!: string
 
   @Embedded()
-  @Field()
   selfPermissions!: ExchangePermissions
 
   @Embedded()
-  @Field()
   userPermissions!: ExchangePermissions
 
   @Property()
-  @Field()
   userApiKey!: string
 
   @Property()
-  @Field()
   serverUrl!: string
 
   @Property()
-  @Field()
   encDisplayName!: string
 
   @Property()
-  @Field()
   encPublicKey!: string
 }

@@ -7,11 +7,9 @@ import { Correspondent } from '../correspondent/correspondent.entity'
 @ObjectType()
 export class User {
   @PrimaryKey()
-  @Field()
   uuid: string = v4()
 
   @Property()
-  @Field()
   publicKey!: string
 
   @Property()
@@ -24,15 +22,12 @@ export class User {
 
   @Property()
   @Unique()
-  @Field()
   encUsername!: string
 
   @Property()
-  @Field()
   encPrivateKey!: string
 
   @Property()
-  @Field()
   encPublicName!: string
 
   @Field(() => [Correspondent])

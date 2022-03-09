@@ -5,8 +5,8 @@ import { Field, InputType, ObjectType } from '@nestjs/graphql'
 export interface PaginatedType<TItem> {
   items: TItem[]
   hasMore: boolean
-  prevCursor: Date | null
-  nextCursor: Date | null
+  prevCursor?: Date
+  nextCursor?: Date
 }
 
 export function PaginatedResponse<TItem>(TItemClass: new () => TItem): abstract new () => PaginatedType<TItem> {
@@ -18,11 +18,11 @@ export function PaginatedResponse<TItem>(TItemClass: new () => TItem): abstract 
     @Field()
     hasMore!: boolean
 
-    @Field(() => Date, { nullable: true })
-    prevCursor!: Date | null
+    @Field()
+    prevCursor?: Date
 
-    @Field(() => Date, { nullable: true })
-    nextCursor!: Date | null
+    @Field()
+    nextCursor?: Date
   }
 
   return PaginatedResponseClass
@@ -63,7 +63,7 @@ export async function paginatedQuery<
   return {
     items: items.slice(0, pagination.limit),
     hasMore,
-    prevCursor: items.length > 0 ? items[0].createdAt : null,
-    nextCursor: hasMore ? items[items.length - 1].createdAt : null,
+    prevCursor: items.length > 0 ? items[0].createdAt : undefined,
+    nextCursor: hasMore ? items[items.length - 1].createdAt : undefined,
   }
 }
