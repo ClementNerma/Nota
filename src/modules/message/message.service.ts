@@ -37,6 +37,7 @@ export class MessageService {
       correspondent: from.uuid,
       direction: MessageDirection.CORRESPONDENT_TO_USER,
       encryptedData: input.encryptedData,
+      user: from.associatedTo.uuid,
       attributes: {
         read: false,
         archived: false,
@@ -105,9 +106,9 @@ export class MessageService {
   async getMessage(viewer: Viewer, input: GetMessageInput): Promise<Message> {
     const user = await this.userGuard.validateViewer(viewer)
 
-    const message = await this.messageRepo.findOne(input.messageId, { populate: ['correspondent'] })
+    const message = await this.messageRepo.findOne(input.messageId)
 
-    if (!message || message.correspondent.unwrap().associatedTo.unwrap().uuid !== user.uuid) {
+    if (!message || message.user.uuid !== user.uuid) {
       throw new NotFoundError('Provided message ID was not found')
     }
 
@@ -122,9 +123,9 @@ export class MessageService {
   async setMessageAttributes(viewer: Viewer, input: SetMessageAttributesInput): Promise<MessageAttributes> {
     const user = await this.userGuard.validateViewer(viewer)
 
-    const message = await this.messageRepo.findOne(input.messageId, { populate: ['correspondent'] })
+    const message = await this.messageRepo.findOne(input.messageId)
 
-    if (!message || message.correspondent.unwrap().associatedTo.unwrap().uuid !== user.uuid) {
+    if (!message || message.user.uuid !== user.uuid) {
       throw new ForbiddenError('Provided message ID was not found')
     }
 
