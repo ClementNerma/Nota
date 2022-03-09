@@ -13,8 +13,8 @@ export class GqlAuthGuard extends AuthGuard('jwt') {
 
 @Injectable()
 export class GqlOptionalAuthGuard extends GqlAuthGuard {
-  override handleRequest<TUser>(err: unknown, user: TUser | false): TUser | false {
-    return user
+  override handleRequest<TUser>(err: unknown, user: TUser | false): TUser | undefined {
+    return user !== false ? user : undefined
   }
 }
 
