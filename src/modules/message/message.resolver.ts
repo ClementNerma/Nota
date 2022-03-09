@@ -1,7 +1,9 @@
 import { Args, Mutation, Parent, ResolveField, Resolver } from '@nestjs/graphql'
 import { Correspondent } from '../correspondent/correspondent.entity'
 import { CorrespondentGuard } from '../correspondent/correspondent.guard'
+import { GqlAuth, GqlPayload, Viewer } from '../graphql/auth'
 import { ApiKey, GqlApiKey } from '../graphql/external'
+import { MessageSendToExternalInputDTO } from './dtos/message-send-to-external.input'
 import { MessageSendInputDTO } from './dtos/message-send.input'
 import { MessageSentDTO } from './dtos/message-sent.dto'
 import { Message } from './message.entity'
@@ -23,5 +25,14 @@ export class MessageResolver {
   async sendMessage(@GqlApiKey() apiKey: ApiKey, @Args('input') input: MessageSendInputDTO): Promise<MessageSentDTO> {
     const correspondent = await this.correspondentGuard.validateApiKey(apiKey)
     return this.messageService.sendMessage(correspondent, input)
+  }
+
+  @Mutation(() => MessageSentDTO)
+  @GqlAuth()
+  async sendMessageToExternal(
+    @GqlPayload() viewer: Viewer,
+    @Args('input') input: MessageSendToExternalInputDTO,
+  ): Promise<MessageSentDTO> {
+    return this.messageService.sendMessageToExternal(viewer, input)
   }
 }
