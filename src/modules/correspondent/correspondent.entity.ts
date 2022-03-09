@@ -46,6 +46,10 @@ export class Correspondent {
 
   @Property()
   @Field()
+  userApiKey!: string
+
+  @Property()
+  @Field()
   serverUrl!: string
 
   @Property()

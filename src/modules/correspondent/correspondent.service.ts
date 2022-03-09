@@ -19,6 +19,7 @@ export class CorrespondentService {
       encDisplayName: input.encDisplayName,
       encPublicKey: input.encPublicKey,
       serverUrl: input.serverUrl,
+      userApiKey: input.userApiKey,
       associatedTo: viewer.uuid,
     })
 

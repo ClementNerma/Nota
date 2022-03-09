@@ -7,6 +7,9 @@ export class CorrespondentCreateInputDTO {
   serverUrl!: string
 
   @Field()
+  userApiKey!: string
+
+  @Field()
   encDisplayName!: string
 
   @Field()
