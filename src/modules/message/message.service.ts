@@ -1,4 +1,4 @@
-import { EntityRepository } from '@mikro-orm/core'
+import { EntityRepository, NotFoundError } from '@mikro-orm/core'
 import { InjectRepository } from '@mikro-orm/nestjs'
 import { Injectable } from '@nestjs/common'
 import { ApolloError, ForbiddenError } from 'apollo-server-express'
@@ -18,6 +18,7 @@ import { PaginatedMessages } from './message.resolver'
 import { SetMessageAttributesInput } from './dtos/message-set-attributes.input'
 import { UserGuard } from '../user/user.guard'
 import { mergeObjects } from '../../utils/merge-objects'
+import { GetMessageInput } from './dtos/message-get.input'
 
 @Injectable()
 export class MessageService {
@@ -99,6 +100,23 @@ export class MessageService {
       },
       pagination,
     )
+  }
+
+  async getMessage(viewer: Viewer, input: GetMessageInput): Promise<Message> {
+    const user = await this.userGuard.validateViewer(viewer)
+
+    const message = await this.messageRepo.findOne(input.messageId, { populate: ['correspondent'] })
+
+    if (!message || message.correspondent.unwrap().associatedTo.unwrap().uuid !== user.uuid) {
+      throw new NotFoundError('Provided message ID was not found')
+    }
+
+    if (input.markAsRead === true) {
+      message.attributes.read = true
+      await this.messageRepo.persistAndFlush(message)
+    }
+
+    return message
   }
 
   async setMessageAttributes(viewer: Viewer, input: SetMessageAttributesInput): Promise<MessageAttributes> {

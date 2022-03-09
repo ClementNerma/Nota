@@ -1,9 +1,10 @@
-import { Args, Mutation, ObjectType, Parent, ResolveField, Resolver } from '@nestjs/graphql'
+import { Args, Mutation, ObjectType, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
 import { PaginatedResponse } from '../../utils/pagination'
 import { Correspondent } from '../correspondent/correspondent.entity'
 import { CorrespondentGuard } from '../correspondent/correspondent.guard'
 import { GqlAuth, GqlPayload, Viewer } from '../graphql/auth'
 import { ApiKey, GqlApiKey } from '../graphql/external'
+import { GetMessageInput } from './dtos/message-get.input'
 import { MessageSendToExternalInputDTO } from './dtos/message-send-to-external.input'
 import { MessageSendInputDTO } from './dtos/message-send.input'
 import { MessageSentDTO } from './dtos/message-sent.dto'
@@ -48,5 +49,11 @@ export class MessageResolver {
     @Args('input') input: SetMessageAttributesInput,
   ): Promise<MessageAttributes> {
     return this.messageService.setMessageAttributes(viewer, input)
+  }
+
+  @Query(() => Message)
+  @GqlAuth()
+  async getMessage(@GqlPayload() viewer: Viewer, @Args('input') input: GetMessageInput): Promise<Message> {
+    return this.messageService.getMessage(viewer, input)
   }
 }
