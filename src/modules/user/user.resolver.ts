@@ -1,7 +1,8 @@
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
+import { PaginationInput } from '../../utils/pagination'
 import { Correspondent } from '../correspondent/correspondent.entity'
 import { GqlAuth, GqlPayload, Viewer } from '../graphql/auth'
-import { Message } from '../message/message.entity'
+import { PaginatedMessages } from '../message/message.resolver'
 import { UserCreateDTO } from './dtos/user-create.input'
 import { User } from './user.entity'
 import { UserService } from './user.service'
@@ -20,9 +21,12 @@ export class UserResolver {
     return this.userService.create(dto)
   }
 
-  @Query(() => [Message])
+  @Query(() => PaginatedMessages)
   @GqlAuth()
-  async myMessages(@GqlPayload() viewer: Viewer): Promise<Message[]> {
-    return this.userService.getMessages(viewer)
+  async myMessages(
+    @GqlPayload() viewer: Viewer,
+    @Args('paginate') pagination: PaginationInput,
+  ): Promise<PaginatedMessages> {
+    return this.userService.getMessages(viewer, pagination)
   }
 }

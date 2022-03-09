@@ -2,8 +2,10 @@ import { EntityRepository } from '@mikro-orm/core'
 import { InjectRepository } from '@mikro-orm/nestjs'
 import { Injectable } from '@nestjs/common'
 import { genSalt, hash } from 'bcrypt'
+import { PaginationInput } from '../../utils/pagination'
 import { Viewer } from '../graphql/auth'
 import { Message } from '../message/message.entity'
+import { PaginatedMessages } from '../message/message.resolver'
 import { MessageService } from '../message/message.service'
 import { UserCreateDTO } from './dtos/user-create.input'
 import { User } from './user.entity'
@@ -42,8 +44,8 @@ export class UserService {
     return user
   }
 
-  async getMessages(viewer: Viewer): Promise<Message[]> {
+  async getMessages(viewer: Viewer, pagination: PaginationInput): Promise<PaginatedMessages> {
     const user = await this.userGuard.validateViewer(viewer)
-    return this.messageService.getMessagesOf(user)
+    return this.messageService.getMessagesOf(user, pagination)
   }
 }

@@ -1,4 +1,5 @@
-import { Args, Mutation, Parent, ResolveField, Resolver } from '@nestjs/graphql'
+import { Args, Mutation, ObjectType, Parent, ResolveField, Resolver } from '@nestjs/graphql'
+import { PaginatedResponse } from '../../utils/pagination'
 import { Correspondent } from '../correspondent/correspondent.entity'
 import { CorrespondentGuard } from '../correspondent/correspondent.guard'
 import { GqlAuth, GqlPayload, Viewer } from '../graphql/auth'
@@ -8,6 +9,9 @@ import { MessageSendInputDTO } from './dtos/message-send.input'
 import { MessageSentDTO } from './dtos/message-sent.dto'
 import { Message } from './message.entity'
 import { MessageService } from './message.service'
+
+@ObjectType()
+export class PaginatedMessages extends PaginatedResponse(Message) {}
 
 @Resolver(Message)
 export class MessageResolver {

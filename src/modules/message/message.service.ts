@@ -13,6 +13,8 @@ import { Message, MessageDirection } from './message.entity'
 import { ApolloClient, InMemoryCache, HttpLink, gql } from '@apollo/client/core'
 import { fetch } from 'cross-fetch'
 import { API_KEY_HEADER } from '../graphql/external'
+import { paginatedQuery, PaginationInput } from '../../utils/pagination'
+import { PaginatedMessages } from './message.resolver'
 
 @Injectable()
 export class MessageService {
@@ -78,11 +80,15 @@ export class MessageService {
     return { messageId: res.data.sendMessage.messageId }
   }
 
-  async getMessagesOf(user: User): Promise<Message[]> {
-    return this.messageRepo.find({
-      correspondent: {
-        associatedTo: user.uuid,
+  async getMessagesOf(user: User, pagination: PaginationInput): Promise<PaginatedMessages> {
+    return paginatedQuery(
+      this.messageRepo,
+      {
+        correspondent: {
+          associatedTo: user.uuid,
+        },
       },
-    })
+      pagination,
+    )
   }
 }
