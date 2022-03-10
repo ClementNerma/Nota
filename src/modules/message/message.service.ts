@@ -163,7 +163,10 @@ export class MessageService {
           : { $lte: input.toDate }
     }
 
-    filters.encryptedData = encryptedDataFilters
+    // NOTE: Required because MikroORM fails if an empty object is provided here
+    if (Reflect.ownKeys(encryptedDataFilters).length > 0) {
+      filters.encryptedData = encryptedDataFilters
+    }
 
     return paginatedQuery(this.messageRepo, filters, pagination)
   }
