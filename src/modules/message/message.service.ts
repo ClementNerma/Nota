@@ -34,6 +34,8 @@ export class MessageService {
       throw new ForbiddenError("You don't have permission to send messages to this user")
     }
 
+    const receptionDate = new Date()
+
     const message = this.messageRepo.create({
       correspondent: from.uuid,
       direction: MessageDirection.CORRESPONDENT_TO_USER,
@@ -44,8 +46,8 @@ export class MessageService {
         archived: false,
         encCategory: input.encryptedData.encCategory,
       },
-      receivedAt: new Date(),
-      createdAt: new Date(),
+      receivedAt: receptionDate,
+      createdAt: receptionDate,
     })
 
     await this.messageRepo.persistAndFlush(message)
