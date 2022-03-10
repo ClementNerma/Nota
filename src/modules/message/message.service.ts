@@ -135,8 +135,8 @@ export class MessageService {
 
     const encryptedDataFilters: ObjectQuery<EncryptedMessageData> = {}
 
-    if (input.encCorrespondentId != null) {
-      filters.correspondent = input.encCorrespondentId
+    if (input.correspondentId != null) {
+      filters.correspondent = input.correspondentId
     }
 
     if (input.encSenderName != null) {

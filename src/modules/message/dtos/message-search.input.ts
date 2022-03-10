@@ -3,7 +3,7 @@ import { MessageDirection } from '../message.entity'
 
 @InputType()
 export class MessageSearchInput {
-  encCorrespondentId?: string
+  correspondentId?: string
   encSenderName?: string
   encCategory?: string
   direction?: MessageDirection
