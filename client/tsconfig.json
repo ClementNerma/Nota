@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noFallthroughCasesInSwitch": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "useUnknownInCatchVariables": true,
+    "strictPropertyInitialization": true,
+
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+
+    "skipLibCheck": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "lib": ["esnext"],
+    "target": "es6",
+
+    "inlineSourceMap": true,
+
+    "incremental": true,
+    "composite": true,
+
+    "rootDir": "src",
+    "outDir": "dist"
+  },
+
+  "include": ["src"]
+}
