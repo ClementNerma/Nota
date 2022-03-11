@@ -1,5 +1,5 @@
 import { InputType } from '@nestjs/graphql'
-import { MessageDirection } from '../message.entity'
+import { MessageDirection, NotificationUrgency } from '../message.entity'
 
 @InputType()
 export class MessageSearchInput {
@@ -9,4 +9,6 @@ export class MessageSearchInput {
   direction?: MessageDirection
   fromDate?: Date
   toDate?: Date
+  isNotification?: boolean
+  notificationUrgency?: NotificationUrgency
 }

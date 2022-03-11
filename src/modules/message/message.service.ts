@@ -9,7 +9,13 @@ import { User } from '../user/user.entity'
 import { MessageSendToExternalInputDTO } from './dtos/message-send-to-external.input'
 import { MessageSendInputDTO } from './dtos/message-send.input'
 import { MessageSentDTO } from './dtos/message-sent.dto'
-import { EncryptedMessageData, Message, MessageAttributes, MessageDirection } from './message.entity'
+import {
+  EncryptedMessageData,
+  EncryptedNotificationData,
+  Message,
+  MessageAttributes,
+  MessageDirection,
+} from './message.entity'
 import { ApolloClient, InMemoryCache, HttpLink, gql } from '@apollo/client/core'
 import { fetch } from 'cross-fetch'
 import { API_KEY_HEADER } from '../graphql/external'
@@ -135,18 +141,8 @@ export class MessageService {
       user,
     }
 
-    const encryptedDataFilters: ObjectQuery<EncryptedMessageData> = {}
-
     if (input.correspondentId != null) {
       filters.correspondent = input.correspondentId
-    }
-
-    if (input.encSenderName != null) {
-      encryptedDataFilters.encSenderName = input.encSenderName
-    }
-
-    if (input.encCategory != null) {
-      encryptedDataFilters.encCategory = input.encCategory
     }
 
     if (input.direction != null) {
@@ -163,6 +159,33 @@ export class MessageService {
           : input.fromDate
           ? { $gte: input.fromDate }
           : { $lte: input.toDate }
+    }
+
+    // Filters on encrypted message data
+    const encryptedDataFilters: ObjectQuery<EncryptedMessageData> = {}
+
+    if (input.encSenderName != null) {
+      encryptedDataFilters.encSenderName = input.encSenderName
+    }
+
+    if (input.encCategory != null) {
+      encryptedDataFilters.encCategory = input.encCategory
+    }
+
+    // Filters on notification data
+    const encryptedNotificationDataFilters: ObjectQuery<EncryptedNotificationData> = {}
+
+    if (input.isNotification != null) {
+      encryptedNotificationDataFilters[input.isNotification ? '$ne' : '$eq'] = null
+    }
+
+    if (input.notificationUrgency) {
+      encryptedNotificationDataFilters.encUrgency = input.notificationUrgency
+    }
+
+    // NOTE: Required because MikroORM fails if an empty object is provided here
+    if (Reflect.ownKeys(encryptedNotificationDataFilters).length > 0) {
+      encryptedDataFilters.encNotificationData = encryptedNotificationDataFilters
     }
 
     // NOTE: Required because MikroORM fails if an empty object is provided here

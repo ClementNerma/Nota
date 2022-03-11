@@ -6,6 +6,17 @@ import { User } from '../user/user.entity'
 
 @Embeddable()
 @ObjectType()
+@InputType('EncryptedNotificationDataInput')
+export class EncryptedNotificationData {
+  @Property()
+  encUrgency!: NotificationUrgency
+
+  @Property()
+  encShowUrlOnClick?: string
+}
+
+@Embeddable()
+@ObjectType()
 @InputType('EncryptedMessageDataInput')
 export class EncryptedMessageData {
   @Property()
@@ -22,6 +33,9 @@ export class EncryptedMessageData {
 
   @Property()
   encContent!: string
+
+  @Embedded()
+  encNotificationData?: EncryptedNotificationData
 }
 
 @Embeddable()
@@ -74,4 +88,15 @@ export enum MessageDirection {
 
 registerEnumType(MessageDirection, {
   name: 'MessageDirection',
+})
+
+export enum NotificationUrgency {
+  DO_NOT_DISTURB = 'DO_NOT_DISTURB',
+  NORMAL = 'NORMAL',
+  HIGH = 'HIGH',
+  URGENT = 'URGENT',
+}
+
+registerEnumType(NotificationUrgency, {
+  name: 'NotificationUrgency',
 })
