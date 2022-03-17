@@ -1,3 +1,4 @@
 /node_modules
 /tsconfig.build.tsbuildinfo
-/src/generated
+/src/graphql
+/src/**/*.generated.tsx

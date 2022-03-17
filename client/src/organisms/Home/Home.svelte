@@ -1,5 +1,19 @@
 <script lang="ts">
-    export let test = "YOH"
+  import { AsyncHome } from './Home.generated'
+
+  const home = AsyncHome({
+    variables: {
+      paginate: {
+        limit: 10,
+      },
+    },
+  })
 </script>
 
-<h1>Hello world!</h1>
+{#await home}
+  <h1>Loading...</h1>
+{:then home}
+  {home.data}
+{:catch error}
+  <h1>Failed: {error.message}</h1>
+{/await}

@@ -10,21 +10,14 @@
     "useUnknownInCatchVariables": true,
     "strictPropertyInitialization": true,
 
-    "downlevelIteration": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-
     "skipLibCheck": true,
-    "declaration": true,
     "esModuleInterop": true,
-    "module": "commonjs",
-    "lib": ["esnext"],
-    "target": "es6",
+    "isolatedModules": true,
+    "moduleResolution": "node",
+    "target": "es2017",
 
-    "inlineSourceMap": true,
-
-    "incremental": true,
-    "composite": true,
+    "forceConsistentCasingInFileNames": true,
+    "sourceMap": true,
 
     "rootDir": "src",
     "outDir": "dist"
