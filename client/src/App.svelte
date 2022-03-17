@@ -1,5 +1,6 @@
 <script lang="ts">
-  const text: string = 'World!'
+  import Home from './organisms/Home/Home.svelte'
 </script>
 
-<h1>Hello {text}</h1>
+<!-- Doesn't work -->
+<Home />

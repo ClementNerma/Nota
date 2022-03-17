@@ -1,0 +1,25 @@
+query Home($paginate: PaginationInput!) {
+  myMessages(paginate: $paginate) {
+    items {
+      uuid
+      correspondent {
+        uuid
+        encDisplayName
+      }
+      encryptedData {
+        encSenderName
+        encSubject
+        encReplyingToMessageId
+        encCategory
+        encContent
+        encNotificationData {
+          encUrgency
+          encShowUrlOnClick
+        }
+      }
+    }
+    hasMore
+    prevCursor
+    nextCursor
+  }
+}
