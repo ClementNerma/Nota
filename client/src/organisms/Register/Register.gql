@@ -1,0 +1,5 @@
+mutation Register($input: UserCreateDTO!) {
+    register(input: $input) {
+      uuid
+    }
+}
