@@ -3,7 +3,7 @@ export const CONSTANTS = Object.freeze({
     keyDerivationAlgorithm: 'PBKDF2',
     hashAlgorithm: 'SHA-384',
     iterations: 100_000,
-    symmetricalEncryptionAlgorithm: 'AES-CBC',
+    symmetricalEncryptionAlgorithm: 'AES-GCM',
     symmetricalEncryptionAlgorithmKeyLength: 256,
     asymmetricalEncryptionAlgorithm: 'RSA-OAEP',
     asymmetricalEncryptionAlgorithmKeyLength: 4096,
