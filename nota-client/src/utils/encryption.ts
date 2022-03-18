@@ -84,7 +84,7 @@ export function generateIV(): Uint8Array {
 export function hash(data: string, salt: string): Promise<ArrayBuffer> {
   return crypto.subtle.digest(
     CONSTANTS.crypto.hashAlgorithm,
-    createBufferSource(salt + data + CONSTANTS.forever.hashingPepper),
+    createBufferSource(salt + data + CONSTANTS.forever.fixedHashSuffix),
   )
 }
 

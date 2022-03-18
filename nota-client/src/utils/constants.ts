@@ -15,6 +15,6 @@ export const CONSTANTS = Object.freeze({
     .join(''),
 
   forever: Object.freeze({
-    hashingPepper: 'NOTA_HASHING_PEPPER',
+    fixedHashSuffix: 'NOTA_HASHING_FIXED_SUFFIX',
   }),
 })
