@@ -68,6 +68,12 @@ export class Message {
   @Property()
   direction!: MessageDirection
 
+  @Property({ type: 'text', lazy: true })
+  encForMeSymmetricalKeyJWK!: string
+
+  @Property({ type: 'text', lazy: true })
+  encForThemSymmetricalKeyJWK!: string
+
   @Embedded()
   encryptedData!: EncryptedMessageData
 

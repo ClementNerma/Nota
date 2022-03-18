@@ -1,3 +1,13 @@
 mutation Login($input: UserLoginDTO!) {
-  login(input: $input)
+  login(input: $input) {
+    viewer {
+      uuid
+      symKeyEncPrivateKeyJWK
+      symKeyEncPrivateKeyIV
+      publicKeyJWK
+      encPublicName
+      encPublicNameIV
+    }
+    accessToken
+  }
 }

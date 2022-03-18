@@ -5,6 +5,7 @@ import { UserLoginDTO } from '../user/dtos/user-login.input'
 import { User } from '../user/user.entity'
 import { UserService } from '../user/user.service'
 import { AuthService } from './auth.service'
+import { LoggedInDTO } from './dtos/logged-in.dto'
 
 @Resolver()
 export class AuthResolver {
@@ -16,8 +17,8 @@ export class AuthResolver {
     return viewer !== undefined ? this.userService.findByUuid(viewer.uuid) : null
   }
 
-  @Mutation(() => String)
-  async login(@Args('input') input: UserLoginDTO): Promise<string> {
+  @Mutation(() => LoggedInDTO)
+  async login(@Args('input') input: UserLoginDTO): Promise<LoggedInDTO> {
     const user = await this.authService.login(input.usernameHash, input.passwordHash)
 
     if (user === null) {

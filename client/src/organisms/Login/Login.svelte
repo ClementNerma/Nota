@@ -2,6 +2,7 @@
   import { writable } from 'svelte/store'
   import { toBase64 } from '../../utils/base64'
   import { hash } from '../../utils/encryption'
+  import { authData } from '../../utils/stores'
   import { Login } from './Login.generated'
 
   const credentials = writable({
@@ -19,7 +20,9 @@
       },
     })
 
-    console.log(result)
+    if (result.data) {
+      authData.set(result.data.login)
+    }
   }
 </script>
 

@@ -4,7 +4,9 @@ import { InputType } from '@nestjs/graphql'
 export class UserCreateDTO {
   usernameHash!: string
   passwordHash!: string
-  publicKey!: string
-  symKeyEncPrivateKey!: string
+  publicKeyJWK!: string
+  symKeyEncPrivateKeyJWK!: string
+  symKeyEncPrivateKeyIV!: string
   encPublicName!: string
+  encPublicNameIV!: string
 }

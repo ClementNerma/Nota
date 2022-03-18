@@ -21,14 +21,20 @@ export class User {
   @HideField()
   passwordDoubleHash!: string
 
-  @Property()
-  symKeyEncPrivateKey!: string
+  @Property({ type: 'text', lazy: true })
+  symKeyEncPrivateKeyJWK!: string
 
   @Property()
-  publicKey!: string
+  symKeyEncPrivateKeyIV!: string
+
+  @Property({ type: 'text', lazy: true })
+  publicKeyJWK!: string
 
   @Property()
   encPublicName!: string
+
+  @Property()
+  encPublicNameIV!: string
 
   @Field(() => [Correspondent])
   @OneToMany(() => Correspondent, (c) => c.associatedTo)

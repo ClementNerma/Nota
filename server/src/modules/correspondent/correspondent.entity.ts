@@ -41,6 +41,9 @@ export class Correspondent {
   @Embedded()
   userPermissions!: ExchangePermissions
 
+  @Property({ type: 'text', lazy: true })
+  encSecretKeyJWK!: string
+
   @Property()
   userApiKey!: string
 
@@ -48,8 +51,5 @@ export class Correspondent {
   serverUrl!: string
 
   @Property()
-  encDisplayName!: string
-
-  @Property()
-  encPublicKey!: string
+  encSecretDisplayName!: string
 }
