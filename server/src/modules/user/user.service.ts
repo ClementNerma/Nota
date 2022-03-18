@@ -23,20 +23,20 @@ export class UserService {
     return this.usersRepo.findOne(uuid)
   }
 
-  async findByEncryptedUsername(encUsername: string): Promise<User | null> {
-    return this.usersRepo.findOne({ encUsername })
+  async findByEncryptedUsername(usernameHash: string): Promise<User | null> {
+    return this.usersRepo.findOne({ usernameHash })
   }
 
   async create(dto: UserCreateDTO): Promise<User> {
     const passwordDoubleSalt = await genSalt()
 
     const user = this.usersRepo.create({
+      usernameHash: dto.usernameHash,
       passwordDoubleSalt,
       passwordDoubleHash: await hash(dto.passwordHash, passwordDoubleSalt),
       publicKey: dto.publicKey,
-      encUsername: dto.encUsername,
+      symKeyEncPrivateKey: dto.symKeyEncPrivateKey,
       encPublicName: dto.encPublicName,
-      encPrivateKey: dto.encPrivateKey,
     })
 
     await this.usersRepo.persistAndFlush(user)

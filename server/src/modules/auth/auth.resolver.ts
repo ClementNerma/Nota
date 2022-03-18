@@ -18,7 +18,7 @@ export class AuthResolver {
 
   @Mutation(() => String)
   async login(@Args('input') input: UserLoginDTO): Promise<string> {
-    const user = await this.authService.login(input.encUsername, input.passwordHash)
+    const user = await this.authService.login(input.usernameHash, input.passwordHash)
 
     if (user === null) {
       throw new AuthenticationError('Bad credentials provided')

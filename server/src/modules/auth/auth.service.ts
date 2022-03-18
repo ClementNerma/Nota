@@ -11,8 +11,8 @@ export type AuthPayload = JwtPayload
 export class AuthService {
   constructor(private readonly jwtService: JwtService, private readonly usersService: UserService) {}
 
-  async validateUser(encryptedUsername: string, passwordHash: string): Promise<JwtPayload | null> {
-    const user = await this.usersService.findByEncryptedUsername(encryptedUsername)
+  async validateUser(usernameHash: string, passwordHash: string): Promise<JwtPayload | null> {
+    const user = await this.usersService.findByEncryptedUsername(usernameHash)
 
     if (!user || !(await compare(passwordHash, user.passwordDoubleHash))) {
       return null

@@ -10,7 +10,8 @@ export class User {
   uuid: string = v4()
 
   @Property()
-  publicKey!: string
+  @Unique()
+  usernameHash!: string
 
   @Property()
   @HideField()
@@ -21,11 +22,10 @@ export class User {
   passwordDoubleHash!: string
 
   @Property()
-  @Unique()
-  encUsername!: string
+  symKeyEncPrivateKey!: string
 
   @Property()
-  encPrivateKey!: string
+  publicKey!: string
 
   @Property()
   encPublicName!: string
