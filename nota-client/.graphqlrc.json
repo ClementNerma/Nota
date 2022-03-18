@@ -1,5 +1,5 @@
 {
-  "schema": "../server/schema.gql",
+  "schema": "../nota-server/schema.gql",
   "documents": "src/**/*.gql",
   "extension": {
     "endpoints": {
