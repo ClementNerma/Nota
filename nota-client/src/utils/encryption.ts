@@ -34,7 +34,7 @@ export async function generateKeyPair(): Promise<CryptoKeyPair> {
       name: CONSTANTS.crypto.asymmetricalEncryptionAlgorithm,
       modulusLength: CONSTANTS.crypto.asymmetricalEncryptionAlgorithmKeyLength,
       publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
-      hash: 'SHA-384',
+      hash: CONSTANTS.crypto.hashAlgorithm,
     },
     true,
     ['encrypt', 'decrypt'],
