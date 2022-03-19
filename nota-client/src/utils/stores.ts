@@ -1,4 +1,4 @@
-import { readable, writable } from 'svelte/store'
+import { derived, writable } from 'svelte/store'
 import { LoginMutation } from '../graphql/types'
 
 const LOCALSTORAGE_AUTH_DATA_FIELD = 'nota-auth-data'
@@ -10,9 +10,7 @@ export const authData = writable<LoginMutation['login'] | null>(
   localStorageAuthData !== null ? JSON.parse(localStorageAuthData) : null,
 )
 
-export const isAuth = readable(false, (set) => {
-  authData.subscribe((data) => set(data !== null))
-})
+export const isAuth = derived(authData, (authData) => authData !== null)
 
 export const authenticate = (data: LoginMutation['login'] | null) => {
   authData.set(data)
