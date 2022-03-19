@@ -21,13 +21,13 @@ export class User {
   @HideField()
   passwordDoubleHash!: string
 
-  @Property({ type: 'text', lazy: true })
+  @Property({ type: 'text' })
   symKeyEncPrivateKeyJWK!: string
 
   @Property()
   symKeyEncPrivateKeyIV!: string
 
-  @Property({ type: 'text', lazy: true })
+  @Property({ type: 'text' })
   publicKeyJWK!: string
 
   @Property()
