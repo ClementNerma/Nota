@@ -1,6 +1,6 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { AuthenticationError } from 'apollo-server-express'
-import { GqlAuth, GqlPayload, ViewerMaybe } from '../graphql/auth'
+import { GqlAuth, GqlPayload, Viewer, ViewerMaybe } from '../graphql/auth'
 import { UserLoginDTO } from '../user/dtos/user-login.input'
 import { User } from '../user/user.entity'
 import { UserService } from '../user/user.service'
@@ -13,8 +13,12 @@ export class AuthResolver {
 
   @Query(() => User, { nullable: true })
   @GqlAuth(true)
-  async viewer(@GqlPayload() viewer: ViewerMaybe): Promise<User | null> {
-    return viewer !== undefined ? this.userService.findByUuid(viewer.uuid) : null
+  async viewer(@GqlPayload() viewer: ViewerMaybe): Promise<Viewer | null> {
+    if (viewer === undefined) {
+      return null
+    }
+
+    return (await this.userService.doesUserExist(viewer.uuid)) ? viewer : null
   }
 
   @Mutation(() => LoggedInDTO)

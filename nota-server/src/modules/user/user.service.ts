@@ -19,6 +19,11 @@ export class UserService {
     private readonly messageService: MessageService,
   ) {}
 
+  async doesUserExist(uuid: string): Promise<boolean> {
+    const count = await this.usersRepo.count(uuid)
+    return count > 0
+  }
+
   async findByUuid(uuid: string): Promise<User | null> {
     return this.usersRepo.findOne(uuid)
   }
