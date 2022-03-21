@@ -6,6 +6,7 @@
 
   import { pendingAuth } from './others/auth'
 
+  import AppHeader from './organisms/AppHeader/AppHeader.svelte'
   import AuthGateway from './components/AuthGateway.svelte'
 
   import Login from './organisms/Login/Login.svelte'
@@ -14,10 +15,12 @@
   import Home from './organisms/Home/Home.svelte'
 </script>
 
-{#if $pendingAuth}
-  <h1>Authenticating...</h1>
-{:else}
-  <Router>
+<Router>
+  <AppHeader />
+
+  {#if $pendingAuth}
+    <h1>Authenticating...</h1>
+  {:else}
     <!-- Routes to everyone -->
     <Route path="/login">
       <Login />
@@ -33,5 +36,5 @@
         <Home />
       </AuthGateway>
     </Route>
-  </Router>
-{/if}
+  {/if}
+</Router>

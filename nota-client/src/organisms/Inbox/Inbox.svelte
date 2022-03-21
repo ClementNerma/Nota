@@ -2,7 +2,7 @@
   import { MessageDirection } from '../../graphql/types'
   import { AsyncInbox } from './Inbox.generated'
 
-  import InboxMessageRow from '../../molecules/InboxMessageRow/InboxMessageRow.svelte'
+  import InboxMessageRow from '../InboxMessageRow/InboxMessageRow.svelte'
 
   const inbox = AsyncInbox({
     variables: {

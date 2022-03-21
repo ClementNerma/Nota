@@ -3,7 +3,7 @@
   import { Login } from './Login.generated'
   import { hash } from '../../others/crypto'
   import { deriveKeyFromPassword } from '../../others/crypto'
-  import { authenticate } from '../../others/auth'
+  import { authenticateViewer } from '../../others/auth'
 
   const credentials = writable({
     username: '',
@@ -21,7 +21,11 @@
     })
 
     if (result.data) {
-      authenticate(await deriveKeyFromPassword(username, password), result.data.login.accessToken, result.data.login.viewer)
+      authenticateViewer(
+        await deriveKeyFromPassword(username, password),
+        result.data.login.accessToken,
+        result.data.login.viewer,
+      )
     }
   }
 </script>

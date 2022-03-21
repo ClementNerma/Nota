@@ -101,16 +101,21 @@ export async function decryptSymRaw(
   dataBase64: string,
   ivBase64: string | null,
 ): Promise<ArrayBuffer> {
-  return _assertArrayBuffer(
-    await crypto.subtle.decrypt(
-      {
-        name: CONSTANTS.crypto.symmetricalEncryptionAlgorithm,
-        iv: ivBase64 !== null ? fromBase64(ivBase64) : CONSTANTS.crypto.voidSymmetricalIV,
-      },
-      secretKey,
-      fromBase64(dataBase64),
-    ),
-  )
+  try {
+    return _assertArrayBuffer(
+      await crypto.subtle.decrypt(
+        {
+          name: CONSTANTS.crypto.symmetricalEncryptionAlgorithm,
+          iv: ivBase64 !== null ? fromBase64(ivBase64) : CONSTANTS.crypto.voidSymmetricalIV,
+        },
+        secretKey,
+        fromBase64(dataBase64),
+      ),
+    )
+  } catch (e: unknown) {
+    console.error(e)
+    throw new Error('Failed to perform symmetrical decryption: ' + (e instanceof Error ? e.message : '<unknown error>'))
+  }
 }
 
 export async function decryptSym(secretKey: CryptoKey, dataBase64: string, ivBase64: string | null): Promise<string> {
@@ -129,12 +134,18 @@ export async function encryptAsym(secretKey: CryptoKey, data: string): Promise<s
 }
 
 export async function decryptAsym(secretKey: CryptoKey, dataBase64: string): Promise<string> {
-  const decrypted = _assertArrayBuffer(
-    await crypto.subtle.decrypt(CONSTANTS.crypto.asymmetricalEncryptionAlgorithm, secretKey, fromBase64(dataBase64)),
-  )
+  try {
+    const decrypted = _assertArrayBuffer(
+      await crypto.subtle.decrypt(CONSTANTS.crypto.asymmetricalEncryptionAlgorithm, secretKey, fromBase64(dataBase64)),
+    )
 
-  const decoder = new TextDecoder()
-  return decoder.decode(decrypted)
+    const decoder = new TextDecoder()
+    return decoder.decode(decrypted)
+  } catch (e: unknown) {
+    throw new Error(
+      'Failed to perform asymmetrical decryption: ' + (e instanceof Error ? e.message : '<unknown error>'),
+    )
+  }
 }
 
 export function generateIV(): Uint8Array {
