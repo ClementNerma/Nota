@@ -21,11 +21,13 @@
     })
 
     if (result.data) {
-      authenticateViewer(
+      await authenticateViewer(
         await deriveKeyFromPassword(username, password),
         result.data.login.accessToken,
         result.data.login.viewer,
       )
+
+      location.pathname = '/'
     }
   }
 </script>
