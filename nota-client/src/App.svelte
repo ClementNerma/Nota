@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { setupDevTools } from './others/devtools'
+  setupDevTools()
+
   import { Router, Route } from 'svelte-navigator'
 
   import { pendingAuth } from './others/auth'

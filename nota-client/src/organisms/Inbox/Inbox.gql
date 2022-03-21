@@ -1,0 +1,27 @@
+query Inbox($paginate: PaginationInput!) {
+  myMessages(paginate: $paginate) {
+    items {
+      uuid
+      key: encKeyJWK
+      direction
+      correspondent {
+        uuid
+        encDisplayName
+      }
+      encryptedData {
+        encSenderName
+        encSubject
+        encReplyingToMessageId
+        encCategory
+        encContent
+        encNotificationData {
+          encUrgency
+          encShowUrlOnClick
+        }
+      }
+    }
+    hasMore
+    prevCursor
+    nextCursor
+  }
+}

@@ -4,7 +4,6 @@ import { EncryptedMessageData } from '../message.entity'
 @InputType()
 export class MessageSendToExternalInputDTO {
   correspondentId!: string
-  encForMeSymmetricalKeyJWK!: string
-  encForThemSymmetricalKeyJWK!: string
+  encKeyJWK!: string
   encryptedData!: EncryptedMessageData
 }

@@ -96,17 +96,24 @@ export async function encryptSym(secretKey: CryptoKey, data: string, iv: ArrayBu
   )
 }
 
-export async function decryptSymRaw(secretKey: CryptoKey, dataBase64: string, ivBase64: string): Promise<ArrayBuffer> {
+export async function decryptSymRaw(
+  secretKey: CryptoKey,
+  dataBase64: string,
+  ivBase64: string | null,
+): Promise<ArrayBuffer> {
   return _assertArrayBuffer(
     await crypto.subtle.decrypt(
-      { name: CONSTANTS.crypto.symmetricalEncryptionAlgorithm, iv: fromBase64(ivBase64) },
+      {
+        name: CONSTANTS.crypto.symmetricalEncryptionAlgorithm,
+        iv: ivBase64 !== null ? fromBase64(ivBase64) : CONSTANTS.crypto.voidSymmetricalIV,
+      },
       secretKey,
       fromBase64(dataBase64),
     ),
   )
 }
 
-export async function decryptSym(secretKey: CryptoKey, dataBase64: string, ivBase64: string): Promise<string> {
+export async function decryptSym(secretKey: CryptoKey, dataBase64: string, ivBase64: string | null): Promise<string> {
   const decrypted = await decryptSymRaw(secretKey, dataBase64, ivBase64)
 
   const decoder = new TextDecoder()

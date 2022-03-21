@@ -45,8 +45,7 @@ export class MessageService {
     const message = this.messageRepo.create({
       correspondent: from.uuid,
       direction: MessageDirection.CORRESPONDENT_TO_USER,
-      encForMeSymmetricalKeyJWK: input.encForThemSymmetricalKeyJWK,
-      encForThemSymmetricalKeyJWK: input.encForMeSymmetricalKeyJWK,
+      encKeyJWK: input.encKeyJWK,
       encryptedData: input.encryptedData,
       user: from.associatedTo.uuid,
       attributes: {
@@ -91,8 +90,7 @@ export class MessageService {
       `,
       variables: {
         input: {
-          encForMeSymmetricalKeyJWK: input.encForMeSymmetricalKeyJWK,
-          encForThemSymmetricalKeyJWK: input.encForThemSymmetricalKeyJWK,
+          encKeyJWK: input.encKeyJWK,
           encryptedData: input.encryptedData,
         },
       },

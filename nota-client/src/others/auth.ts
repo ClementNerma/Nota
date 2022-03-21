@@ -6,8 +6,8 @@ import { AsyncViewer } from './gql/Viewer.generated'
 type AuthData = Readonly<{
   accessToken: string
   viewer: LoginMutation['login']['viewer']
+  secretKey: CryptoKey
   decrypted: Readonly<{
-    secretKey: CryptoKey
     privateKey: CryptoKey
     publicName: string
   }>
@@ -30,8 +30,8 @@ export async function authenticate(secretKey: CryptoKey, accessToken: string, vi
   authData.set({
     accessToken,
     viewer,
+    secretKey,
     decrypted: {
-      secretKey,
       privateKey,
       publicName,
     },

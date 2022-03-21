@@ -5,8 +5,8 @@ import { ExchangePermissions } from '../correspondent.entity'
 export class CorrespondentCreateInputDTO {
   serverUrl!: string
   userApiKey!: string
-  encSecretDisplayName!: string
-  encSecretKeyJWK!: string
+  encDisplayName!: string
+  encKeyJWK!: string
   selfPermissions!: ExchangePermissions
   userPermissions!: ExchangePermissions
 }
