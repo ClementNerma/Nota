@@ -8,7 +8,7 @@
   "plugins": ["svelte3", "@typescript-eslint/eslint-plugin"],
   "extends": [
     "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended",
+    //"plugin:prettier/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking"
   ],
@@ -26,7 +26,7 @@
     "node": true,
     "jest": true
   },
-  "ignorePatterns": [".eslintrc", "node_modules"],
+  "ignorePatterns": [".eslintrc", "node_modules", "**/*.svelte"],
   "rules": {
     "prettier/prettier": "error",
     "@typescript-eslint/no-explicit-any": "off",
