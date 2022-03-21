@@ -1,9 +1,9 @@
 <script lang="ts">
   import { writable } from 'svelte/store'
-  import { toBase64 } from '../../utils/base64'
-  import { hash } from '../../utils/encryption'
-  import { authenticate } from '../../utils/stores'
   import { Login } from './Login.generated'
+  import { hash } from '../../others/crypto'
+  import { deriveKeyFromPassword } from '../../others/crypto'
+  import { authenticate } from '../../others/auth'
 
   const credentials = writable({
     username: '',
@@ -14,14 +14,14 @@
     const result = await Login({
       variables: {
         input: {
-          usernameHash: toBase64(await hash(username, username)),
-          passwordHash: toBase64(await hash(password, username)),
+          usernameHash: await hash(username, username),
+          passwordHash: await hash(password, username),
         },
       },
     })
 
     if (result.data) {
-      authenticate(result.data.login)
+      authenticate(await deriveKeyFromPassword(username, password), result.data.login.accessToken, result.data.login.viewer)
     }
   }
 </script>

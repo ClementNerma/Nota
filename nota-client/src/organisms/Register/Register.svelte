@@ -1,14 +1,15 @@
 <script lang="ts">
   import { writable } from 'svelte/store'
-  import { toBase64 } from '../../utils/base64'
+  import { toBase64 } from '../../others/base64'
   import {
     deriveKeyFromPassword,
+    encryptAsym,
     encryptSym,
     exportKey,
     generateIV,
     generateKeyPair,
     hash,
-  } from '../../utils/encryption'
+  } from '../../others/crypto'
   import { Register } from './Register.generated'
 
   const credentials = writable({
@@ -22,18 +23,16 @@
 
     const { privateKey, publicKey } = await generateKeyPair()
 
-    const ivForPublicName = generateIV()
     const ivForPrivateKey = generateIV()
 
     const result = await Register({
       variables: {
         input: {
-          usernameHash: toBase64(await hash(username, username)),
-          passwordHash: toBase64(await hash(password, username)),
-          encPublicName: toBase64(await encryptSym(secretKey, publicName, ivForPublicName)),
-          encPublicNameIV: toBase64(ivForPrivateKey),
+          usernameHash: await hash(username, username),
+          passwordHash: await hash(password, username),
+          encPublicName: await encryptAsym(publicKey, publicName),
           publicKeyJWK: await exportKey(publicKey),
-          symKeyEncPrivateKeyJWK: toBase64(await encryptSym(secretKey, await exportKey(privateKey), ivForPrivateKey)),
+          symKeyEncPrivateKeyJWK: await encryptSym(secretKey, await exportKey(privateKey), ivForPrivateKey),
           symKeyEncPrivateKeyIV: toBase64(ivForPrivateKey),
         },
       },

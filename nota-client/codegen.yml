@@ -10,7 +10,7 @@ generates:
     preset: near-operation-file
     presetConfig:
       baseTypesPath: graphql/types.ts
-      extension: .generated.tsx
+      extension: .generated.ts
     plugins:
       - typescript-operations
       - graphql-codegen-svelte-apollo

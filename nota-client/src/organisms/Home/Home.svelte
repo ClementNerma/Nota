@@ -1,19 +1,5 @@
 <script lang="ts">
-  import { AsyncHome } from './Home.generated'
-
-  const home = AsyncHome({
-    variables: {
-      paginate: {
-        limit: 10,
-      },
-    },
-  })
+  import { authData } from '../../others/auth'
 </script>
 
-{#await home}
-  <h1>Loading...</h1>
-{:then home}
-  {home.data}
-{:catch error}
-  <h1>Failed: {error.message}</h1>
-{/await}
+<h1>Hello {$authData?.decrypted.publicName}</h1>

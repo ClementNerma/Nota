@@ -43,7 +43,6 @@ export class UserService {
       symKeyEncPrivateKeyJWK: dto.symKeyEncPrivateKeyJWK,
       symKeyEncPrivateKeyIV: dto.symKeyEncPrivateKeyIV,
       encPublicName: dto.encPublicName,
-      encPublicNameIV: dto.encPublicNameIV,
     })
 
     await this.usersRepo.persistAndFlush(user)

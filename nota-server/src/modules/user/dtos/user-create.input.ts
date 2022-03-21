@@ -8,5 +8,4 @@ export class UserCreateDTO {
   symKeyEncPrivateKeyJWK!: string
   symKeyEncPrivateKeyIV!: string
   encPublicName!: string
-  encPublicNameIV!: string
 }

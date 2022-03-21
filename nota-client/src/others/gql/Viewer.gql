@@ -1,5 +1,4 @@
-mutation Login($input: UserLoginDTO!) {
-  login(input: $input) {
+query Viewer {
     viewer {
       uuid
       symKeyEncPrivateKeyJWK
@@ -7,6 +6,4 @@ mutation Login($input: UserLoginDTO!) {
       publicKeyJWK
       encPublicName
     }
-    accessToken
-  }
 }

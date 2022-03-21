@@ -1,14 +1,14 @@
 import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client/core'
 import { setContext } from '@apollo/client/link/context'
 import { get } from 'svelte/store'
-import { authData } from './utils/stores'
+import { authData, pendingAuthAccessToken } from './others/auth'
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:4000/graphql',
 })
 
 const authLink = setContext((_, { headers }) => {
-  const token = get(authData)?.accessToken
+  const token = get(pendingAuthAccessToken) ?? get(authData)?.accessToken
   const header = token !== undefined ? `Bearer ${token}` : ''
 
   return {

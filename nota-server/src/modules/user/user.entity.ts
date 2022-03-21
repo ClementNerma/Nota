@@ -30,11 +30,8 @@ export class User {
   @Property({ type: 'text' })
   publicKeyJWK!: string
 
-  @Property()
+  @Property({ type: 'text' })
   encPublicName!: string
-
-  @Property()
-  encPublicNameIV!: string
 
   @Field(() => [Correspondent])
   @OneToMany(() => Correspondent, (c) => c.associatedTo)

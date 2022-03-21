@@ -1,6 +1,6 @@
 /node_modules
 /tsconfig.build.tsbuildinfo
 /src/graphql
-/src/**/*.generated.tsx
+/src/**/*.generated.ts
 
 /.pnpm-debug.log
