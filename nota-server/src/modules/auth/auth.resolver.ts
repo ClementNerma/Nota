@@ -18,7 +18,7 @@ export class AuthResolver {
       return null
     }
 
-    return (await this.userService.doesUserExist(viewer.uuid)) ? viewer : null
+    return this.userService.findByUuid(viewer.uuid)
   }
 
   @Mutation(() => LoggedInDTO)
