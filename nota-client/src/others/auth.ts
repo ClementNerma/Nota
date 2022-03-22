@@ -70,22 +70,18 @@ export function logout() {
   profiles.update((profiles) => {
     const currentUser = get(authData)?.viewer
 
-    if (!currentUser) {
-      location.reload()
-      return []
-    }
+    if (currentUser) {
+      localStorage.setItem(
+        LOCALSTORAGE_PROFILES_ITEM,
+        JSON.stringify(profiles.filter((profile) => profile.uuid !== currentUser.uuid)),
+      )
 
-    localStorage.setItem(
-      LOCALSTORAGE_PROFILES_ITEM,
-      JSON.stringify(profiles.filter((profile) => profile.uuid !== currentUser.uuid)),
-    )
-
-    if (profiles.length === 0) {
-      localStorage.removeItem(LOCALSTORAGE_LAST_ACTIVE_PROFILE_ITEM)
+      if (profiles.length === 0) {
+        localStorage.removeItem(LOCALSTORAGE_LAST_ACTIVE_PROFILE_ITEM)
+      }
     }
 
     location.reload()
-
     return []
   })
 }
