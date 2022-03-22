@@ -101,6 +101,7 @@ export async function switchToProfile(uuid: string, initial = false) {
   const profile = get(profiles).find((profile) => profile.uuid === uuid)
 
   if (!profile) {
+    console.error('Cannot switch to unknown profile ID: ' + uuid)
     pendingAuth.set(false)
     return
   }
