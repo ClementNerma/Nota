@@ -13,6 +13,7 @@
   import Register from './organisms/Register/Register.svelte'
 
   import Home from './organisms/Home/Home.svelte'
+  import Message from './organisms/Message/Message.svelte'
 </script>
 
 <Router>
@@ -34,6 +35,12 @@
     <Route path="/">
       <AuthGateway>
         <Home />
+      </AuthGateway>
+    </Route>
+
+    <Route path="/messages/:id" let:params>
+      <AuthGateway>
+        <Message id={params['id']} />
       </AuthGateway>
     </Route>
   {/if}

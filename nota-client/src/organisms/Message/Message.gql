@@ -1,0 +1,26 @@
+query Message($id: String!) {
+    getMessage(input: { messageId: $id }) {
+      direction
+      key: encKeyJWK
+      correspondent {
+        uuid
+        encDisplayName
+      }
+      attributes {
+        read
+        archived
+        encCategory
+      }
+      encryptedData {
+        encSenderName
+        encSubject
+        encReplyingToMessageId
+        encCategory
+        encContent
+        encNotificationData {
+          encUrgency
+          encShowUrlOnClick
+        }
+      }
+    }
+}

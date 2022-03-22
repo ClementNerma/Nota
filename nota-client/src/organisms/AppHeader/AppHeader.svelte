@@ -18,10 +18,11 @@
     <select bind:value={selectedProfile} on:change={() => selectedProfile && switchToProfile(selectedProfile)}>
       {#each $profiles as profile}
         <option value={profile.uuid}>{profile.lastDecryptedName}</option>
-        {#if !selectedProfile}
-          <option value={undefined} disabled>&lt;Logged out&gt;</option>
-        {/if}
       {/each}
+
+      {#if !selectedProfile}
+        <option value={undefined} disabled>&lt;Logged out&gt;</option>
+      {/if}
     </select>
 
     {#if $isAuth}
