@@ -2,6 +2,7 @@ import { derived, get, writable } from 'svelte/store'
 import { ViewerQuery } from '../graphql/types'
 import { decryptAsym, decryptSym, exportKey, importAsymKey, importSymKey } from './crypto'
 import { AsyncViewer } from './gql/Viewer.generated'
+import { ignoreInitValue } from './utils'
 
 type AuthProfile = {
   uuid: string
@@ -51,45 +52,30 @@ export async function authenticateViewer(secretKey: CryptoKey, accessToken: stri
 
     const existingProfileId = profiles.findIndex((profile) => profile.uuid === newProfile.uuid)
 
-    const updated: typeof profiles =
-      existingProfileId === -1
-        ? profiles.concat([newProfile])
-        : profiles
-            .slice(0, existingProfileId)
-            .concat([newProfile])
-            .concat(profiles.slice(existingProfileId + 1))
-
-    localStorage.setItem(LOCALSTORAGE_PROFILES_ITEM, JSON.stringify(updated))
-    localStorage.setItem(LOCALSTORAGE_LAST_ACTIVE_PROFILE_ITEM, viewer.uuid)
-
-    return updated
+    return existingProfileId === -1
+      ? profiles.concat([newProfile])
+      : profiles
+          .slice(0, existingProfileId)
+          .concat([newProfile])
+          .concat(profiles.slice(existingProfileId + 1))
   })
 }
 
 export function logout() {
   profiles.update((profiles) => {
-    const currentUser = get(authData)?.viewer
-
-    if (currentUser) {
-      localStorage.setItem(
-        LOCALSTORAGE_PROFILES_ITEM,
-        JSON.stringify(profiles.filter((profile) => profile.uuid !== currentUser.uuid)),
-      )
-
-      if (profiles.length === 0) {
-        localStorage.removeItem(LOCALSTORAGE_LAST_ACTIVE_PROFILE_ITEM)
-      }
-    }
+    setLocalStorageProfiles(profiles)
+    setLocalStorageActiveProfile(null)
 
     location.reload()
+
     return []
   })
 }
 
 export async function switchToProfile(uuid: string, initial = false) {
   if (!initial) {
-    localStorage.setItem(LOCALSTORAGE_LAST_ACTIVE_PROFILE_ITEM, uuid)
     pendingAuth.set(true)
+    localStorage.setItem(LOCALSTORAGE_LAST_ACTIVE_PROFILE_ITEM, uuid)
     location.reload()
     return
   }
@@ -118,6 +104,20 @@ export async function switchToProfile(uuid: string, initial = false) {
   }
 
   pendingAuth.set(false)
+}
+
+function setLocalStorageProfiles(profiles: AuthProfile[]): void {
+  localStorage.setItem(LOCALSTORAGE_PROFILES_ITEM, JSON.stringify(profiles))
+}
+
+function setLocalStorageActiveProfile(activeProfile: AuthViewer | null): void {
+  console.log({ activeProfile }) // TODO TO REMOVE
+
+  if (activeProfile) {
+    localStorage.setItem(LOCALSTORAGE_LAST_ACTIVE_PROFILE_ITEM, activeProfile.viewer.uuid)
+  } else {
+    localStorage.removeItem(LOCALSTORAGE_LAST_ACTIVE_PROFILE_ITEM)
+  }
 }
 
 function getLocalStorageProfiles(): AuthProfile[] {
@@ -149,14 +149,18 @@ export const APOLLO_CONTEXT_ACCESS_TOKEN = '$apolloBearerToken'
 /** Is an authentication process pending? */
 export const pendingAuth = writable(true)
 
+/** List of all authenticable profiles */
+export const profiles = writable<AuthProfile[]>(getLocalStorageProfiles())
+
 /** Authentication data for the current user (viewer) */
 export const authData = writable<AuthViewer | null>(null)
 
 /** Is the user authenticated? */
 export const isAuth = derived(authData, (authData) => authData !== null)
 
-/** List of all authenticable profiles */
-export const profiles = writable<AuthProfile[]>(getLocalStorageProfiles())
+// Setup local storage listeners
+profiles.subscribe(ignoreInitValue(setLocalStorageProfiles))
+authData.subscribe(ignoreInitValue(setLocalStorageActiveProfile))
 
 // Try to authenticate the user from the local storage's authentication data
 resumeLastProfile()
