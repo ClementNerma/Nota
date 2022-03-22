@@ -85,6 +85,7 @@ export async function switchToProfile(uuid: string, initial = false) {
   if (!profile) {
     console.error('Cannot switch to unknown profile ID: ' + uuid)
     pendingAuth.set(false)
+    setLocalStorageActiveProfile(null)
     return
   }
 
