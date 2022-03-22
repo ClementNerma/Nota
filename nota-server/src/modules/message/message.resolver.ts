@@ -29,7 +29,10 @@ export class MessageResolver {
   }
 
   @Mutation(() => MessageSentDTO)
-  async sendMessage(@GqlApiKey() apiKey: ApiKey, @Args('input') input: MessageSendInputDTO): Promise<MessageSentDTO> {
+  async correspondentSendMessage(
+    @GqlApiKey() apiKey: ApiKey,
+    @Args('input') input: MessageSendInputDTO,
+  ): Promise<MessageSentDTO> {
     const correspondent = await this.correspondentGuard.validateApiKey(apiKey)
     return this.messageService.sendMessage(correspondent, input)
   }
