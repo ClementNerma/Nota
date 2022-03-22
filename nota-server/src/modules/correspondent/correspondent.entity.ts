@@ -27,6 +27,9 @@ export class Correspondent {
   uuid: string = v4()
 
   @Property()
+  validated!: boolean
+
+  @Property()
   encDisplayName!: string
 
   @ManyToOne()
@@ -48,7 +51,7 @@ export class Correspondent {
   userPermissions!: ExchangePermissions
 
   @Property({ type: 'text' })
-  encKeyJWK!: string
+  correspondentPublicKeyJWK!: string
 
   @Property()
   serverUrl!: string

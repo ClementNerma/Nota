@@ -6,7 +6,7 @@ export class CorrespondentCreateInputDTO {
   serverUrl!: string
   userApiKey!: string
   encDisplayName!: string
-  encKeyJWK!: string
+  correspondentPublicKeyJWK!: string
   selfPermissions!: ExchangePermissions
   userPermissions!: ExchangePermissions
 }

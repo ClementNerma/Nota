@@ -1,0 +1,8 @@
+mutation AddContact($correspondenceToken: String!, $correspondentData: CorrespondentCreateInputDTO!) {
+    requestCorrespondentCreation(input: {
+        correspondenceToken: $correspondenceToken,
+        correspondentData: $correspondentData
+    }) {
+      apiKey
+    }
+}

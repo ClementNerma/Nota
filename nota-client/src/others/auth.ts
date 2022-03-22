@@ -156,6 +156,15 @@ export const profiles = writable<AuthProfile[]>(getLocalStorageProfiles())
 /** Authentication data for the current user (viewer) */
 export const authData = writable<AuthViewer | null>(null)
 
+/** Assert user as authenticated */
+export const assertAuthData = derived(authData, (authData) => {
+  if (authData === null) {
+    throw new Error('Internal error: user was expected to be authenticated but they are not')
+  }
+
+  return authData
+})
+
 /** Is the user authenticated? */
 export const isAuth = derived(authData, (authData) => authData !== null)
 

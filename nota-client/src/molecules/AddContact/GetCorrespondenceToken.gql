@@ -1,0 +1,6 @@
+query GetCorrespondenceToken($correspondenceToken: String!) {
+    getCorrespondenceToken(input: { correspondenceToken: $correspondenceToken }) {
+      userPublicKeyJWK
+      expiresAt
+    }
+}

@@ -2,6 +2,7 @@ import { Collection, Entity, OneToMany, PrimaryKey, Property, Unique } from '@mi
 import { v4 } from 'uuid'
 import { Field, HideField, ObjectType } from '@nestjs/graphql'
 import { Correspondent } from '../correspondent/correspondent.entity'
+import { CorrespondenceToken } from '../correspondent/correspondence-token.entity'
 
 @Entity()
 @ObjectType()
@@ -36,4 +37,8 @@ export class User {
   @Field(() => [Correspondent])
   @OneToMany(() => Correspondent, (c) => c.associatedTo)
   correspondents = new Collection<Correspondent>(this)
+
+  @Field(() => [CorrespondenceToken])
+  @OneToMany(() => CorrespondenceToken, (c) => c.associatedTo)
+  correspondenceTokens = new Collection<CorrespondenceToken>(this)
 }

@@ -3,6 +3,7 @@
   import { AsyncInbox } from './Inbox.generated'
 
   import InboxMessageRow from '../InboxMessageRow/InboxMessageRow.svelte'
+  import CreateCorrespondenceToken from '../../molecules/CreateCorrespondenceToken/CreateCorrespondenceToken.svelte'
 
   const inbox = AsyncInbox({
     variables: {
@@ -17,6 +18,9 @@
       (item) => item.direction === MessageDirection.CorrespondentToUser && !item.encryptedData.encNotificationData,
     ),
   )
+
+  const onTokenCreation = (token: string, expiresAt: Date) =>
+    alert(`Token was generated:\n${token}\n\nIt will expire on:\n` + expiresAt.toLocaleString())
 </script>
 
 {#await messages}
@@ -44,6 +48,9 @@
       {/each}
     </tbody>
   </table>
+
+  <br />
+  <CreateCorrespondenceToken {onTokenCreation} />
 {:catch err}
   <h1>Failed: {err.message}</h1>
 {/await}

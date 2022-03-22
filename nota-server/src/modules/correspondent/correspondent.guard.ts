@@ -22,6 +22,10 @@ export class CorrespondentGuard {
       throw new ForbiddenError('Invalid API key provided')
     }
 
+    if (!correspondent.validated) {
+      throw new ForbiddenError('The correspondent has not yet been validated by the final user')
+    }
+
     return correspondent
   }
 

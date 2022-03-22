@@ -3,8 +3,10 @@ import { setContext } from '@apollo/client/link/context'
 import { get } from 'svelte/store'
 import { APOLLO_CONTEXT_ACCESS_TOKEN, authData } from './others/auth'
 
+export const API_SERVER_URL = 'http://localhost:4000/graphql'
+
 const httpLink = createHttpLink({
-  uri: 'http://localhost:4000/graphql',
+  uri: API_SERVER_URL,
 })
 
 const authLink = setContext((_, ctx) => {

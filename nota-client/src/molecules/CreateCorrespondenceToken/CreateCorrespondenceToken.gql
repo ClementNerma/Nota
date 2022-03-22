@@ -1,0 +1,6 @@
+mutation CreateCorrespondenceToken($lifespan: CorrespondentTokenLifespan!) {
+    createCorrespondenceToken(input: { lifespan: $lifespan }) {
+      correspondenceToken
+      expiresAt
+    }
+}
