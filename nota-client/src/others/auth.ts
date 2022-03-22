@@ -116,6 +116,9 @@ export async function switchToProfile(uuid: string, initial = false) {
 
   if (viewer.data.viewer) {
     await authenticateViewer(secretKey, profile.accessToken, viewer.data.viewer)
+  } else {
+    console.warn('Access token is not valid anymore for profile ID: ' + uuid)
+    profiles.update((profiles) => profiles.filter((profile) => profile.uuid !== uuid))
   }
 
   pendingAuth.set(false)
