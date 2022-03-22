@@ -26,6 +26,9 @@ export class Correspondent {
   @PrimaryKey()
   uuid: string = v4()
 
+  @Property()
+  encDisplayName!: string
+
   @ManyToOne()
   @HideField()
   associatedTo!: IdentifiedReference<User>
@@ -38,6 +41,9 @@ export class Correspondent {
   @Embedded()
   selfPermissions!: ExchangePermissions
 
+  @Property()
+  userApiKey!: string
+
   @Embedded()
   userPermissions!: ExchangePermissions
 
@@ -45,11 +51,5 @@ export class Correspondent {
   encKeyJWK!: string
 
   @Property()
-  userApiKey!: string
-
-  @Property()
   serverUrl!: string
-
-  @Property()
-  encDisplayName!: string
 }
